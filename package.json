@@ -1,0 +1,15 @@
+{
+	"name": "memetp",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"nest-server": "cd nest-server && pnpm run start:dev",
+		"dev": "concurrently npm:nest-server"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
+}
