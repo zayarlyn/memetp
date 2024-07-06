@@ -9,11 +9,12 @@ const s3 = new S3Client({
 })
 const Bucket = process.env.AWS_S3_BUCKET
 
-const listMp4Cmd = new ListObjectsCommand({ Bucket, Delimiter: '.png', EncodingType: 'url' })
+const listMp4Cmd = new ListObjectsCommand({ Bucket, EncodingType: 'url' })
 export const getS3Objects = async () => {
 	const raw = await s3.send(listMp4Cmd)
 	// const result: { Key: string; signedUrl: string }[] = []
 	const objects = _.get(raw, 'Contents', [])
+	return objects
 	const signedUrls = await Promise.all(
 		_.map(objects, (object: _Object) => {
 			const getObjectParams = {

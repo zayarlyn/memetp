@@ -6,12 +6,11 @@ const sequelizeModule = SequelizeModule.forRoot({
   host: 'localhost',
   port: 3306,
   username: 'root',
-  // password: 'root',
-  database: 'side_auth',
+  database: 'memetp',
   define: { paranoid: true, timestamps: true },
   autoLoadModels: true,
   logging: false,
-  // synchronize: true,
+  synchronize: true,
   // sync: { force: true },
 });
 

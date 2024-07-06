@@ -6,10 +6,17 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 const vids = ['/bar-tone-ha.mp4', '/lawkadan.mp4', 'sa-dr-pr-byr.mp4']
 
+interface ITpFetch {
+	url: string
+}
+export const tpFetch = async (url: string) => {
+	const raw = await fetch(url)
+	const data = await raw.json()
+	return data
+}
+
 export default async function Home() {
-	const s3Objects = await getS3Objects()
-	// const mp4s = s3Objects?.map((s3) => ({ id: s3.Key, url: `https://inkdrop-dev-common.s3.ap-southeast-1.amazonaws.com/${s3.Key}` }))
-	// https://inkdrop-dev-common.s3.ap-southeast-1.amazonaws.com/bar-tone-ha.mp4
+	const templates = await tpFetch('http://localhost:5050/api/template')
 
 	return (
 		<div>
@@ -19,9 +26,11 @@ export default async function Home() {
 				</Title>
 			</div>
 			<div className='p-3 flex flex-col gap-6'>
-				{[...s3Objects, ...vids].map((vid, idx) => (
-					<Link key={idx} href={`tp/${vid.split('.')[0]}`}>
-						<TpCard vid={vid} />
+				{/* @ts-ignore */}
+				{templates.map((tp, idx) => (
+					// <Link key={idx} href={`tp/${vid.split('.')[0]}`}>
+					<Link key={idx} href={`tp/${tp.id}`}>
+						<TpCard url={tp.url} />
 					</Link>
 				))}
 			</div>
