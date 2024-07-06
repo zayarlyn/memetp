@@ -4,7 +4,8 @@
 	"main": "index.js",
 	"scripts": {
 		"nest-server": "cd nest-server && pnpm run start:dev",
-		"dev": "concurrently npm:nest-server"
+		"next-web": "cd next-app-web && npm run dev",
+		"dev": "concurrently npm:nest-server npm:next-web"
 	},
 	"author": "",
 	"license": "ISC",
