@@ -1,8 +1,7 @@
 # compiled output
-/dist
-/node_modules
+**/dist
+**/node_modules
 /build
-/nest-server
 
 README.md
 
@@ -44,6 +43,7 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
+.env.production
 
 # temp directory
 .temp
