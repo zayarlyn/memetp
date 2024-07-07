@@ -1,9 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { DbModule } from './db/db.module';
-import { AuthService } from './modules/auth/auth.service';
 import { AuthorizationMiddleware } from './middlewares/authorization.middleware';
 import { TemplateModule } from './modules/template/template.module';
 import { ConfigModule } from '@nestjs/config';

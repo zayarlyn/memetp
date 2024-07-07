@@ -1,8 +1,7 @@
 import TpCard from '@components/TpCard'
 import Title from 'antd/es/typography/Title'
 import Link from 'next/link'
-import { getS3Objects } from './api/upload/route'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { ITemplate } from 'types/api'
 
 const vids = ['/bar-tone-ha.mp4', '/lawkadan.mp4', 'sa-dr-pr-byr.mp4']
 
@@ -16,7 +15,7 @@ export const tpFetch = async (url: string) => {
 }
 
 export default async function Home() {
-	const templates = await tpFetch('http://localhost:5050/api/template')
+	const templates: ITemplate = await tpFetch('http://localhost:5050/api/template')
 
 	return (
 		<div>
@@ -30,7 +29,7 @@ export default async function Home() {
 				{templates.map((tp, idx) => (
 					// <Link key={idx} href={`tp/${vid.split('.')[0]}`}>
 					<Link key={idx} href={`tp/${tp.id}`}>
-						<TpCard url={tp.url} />
+						<TpCard tp={tp} />
 					</Link>
 				))}
 			</div>

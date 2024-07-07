@@ -5,7 +5,8 @@
 	"scripts": {
 		"nest-server": "cd nest-server && pnpm run start:dev",
 		"next-web": "cd web && npm run dev",
-		"dev": "concurrently npm:nest-server npm:next-web"
+		"dev": "concurrently npm:nest-server npm:next-web",
+		"gen-types": "node gentype.js"
 	},
 	"author": "",
 	"license": "ISC",
