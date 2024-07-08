@@ -1,11 +1,9 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
-import {} from 'sequelize-typescript';
-
-// import { AuthBodyDto, AuthServiceLoginReplyDto } from './auth.dto';
-// import { AuthService } from './auth.service';
+import { Body, Controller, Get, Param, Post, Req, Res, UseInterceptors } from '@nestjs/common';
 import { Request, Response } from 'express';
 import _ from 'lodash';
+
 import { TemplateService } from './template.service';
+import { ITemplateCreate } from './template.ctype';
 
 @Controller('/template')
 export class TemplateController {
@@ -23,5 +21,12 @@ export class TemplateController {
     const { tpId } = param;
     const templates = await this.templateService.getTemplates({ id: tpId });
     return templates[0];
+  }
+
+  @Post('/')
+  async createTemplate(@Body() body: ITemplateCreate): Promise<any> {
+    const response = await this.templateService.createTemplate(body);
+
+    return response;
   }
 }

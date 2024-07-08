@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 
-import { TemplateModel } from '@db/models';
+import { S3ObjectModel, TemplateModel } from '@db/models';
+import { S3Service } from '@services/core';
+
 import { TemplateController } from './template.controller';
-import { S3Service } from 'src/services/s3.service';
 import { TemplateService } from './template.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([TemplateModel])],
+  imports: [SequelizeModule.forFeature([TemplateModel, S3ObjectModel])],
   controllers: [TemplateController],
   providers: [TemplateService, S3Service],
 })

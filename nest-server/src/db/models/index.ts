@@ -1,3 +1,4 @@
-export { default as UserModel } from './user.model';
-export { default as SessionModel } from './session.model';
-export { default as TemplateModel } from './template.model';
+export * from './user.model';
+export * from './session.model';
+export * from './template.model';
+export * from './s3Object.model';

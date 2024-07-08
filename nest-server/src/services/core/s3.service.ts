@@ -1,13 +1,5 @@
-import { GetObjectCommand, ListObjectsCommand, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, ListObjectsCommand, PutObjectCommand, S3Client, UploadPartCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
-// const s3 = new S3Client({
-//   region: process.env.AWS_S3_REGION,
-//   credentials: { accessKeyId: process.env.AWS_ACCESS_KEY as string, secretAccessKey: process.env.AWS_SECRET_KEY as string },
-// });
-// const Bucket = process.env.AWS_S3_BUCKET;
-
-// const listMp4Cmd = new ListObjectsCommand({ Bucket, EncodingType: 'url', Delimiter: '/png' });
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -25,9 +17,23 @@ export class S3Service {
     this.bucket = this.configService.get('AWS_S3_BUCKET');
   }
 
-  async getS3ObjectUrl({ key, promise = false }: { key: string; promise: boolean }) {
+  async getS3ObjectUrl({ key, promise = false }: { key: string; promise?: boolean }) {
     const getObjectCmd = new GetObjectCommand({ Bucket: this.bucket, Key: key });
     const prom = getSignedUrl(this.s3, getObjectCmd, { expiresIn: 3600 });
     return promise ? prom : await prom;
+  }
+
+  async uploadS3Object({ file, promise = false }: { file: Express.Multer.File; promise?: boolean }) {
+    const putObjectCmd = new PutObjectCommand({
+      Bucket: this.bucket,
+      Key: file.filename,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      Metadata: {
+        originalname: file.originalname,
+      },
+    });
+    const cmd = this.s3.send(putObjectCmd);
+    return promise ? cmd : await cmd;
   }
 }

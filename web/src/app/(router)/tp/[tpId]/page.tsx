@@ -1,7 +1,7 @@
 import TpCard from '@components/TpCard'
 import Title from 'antd/es/typography/Title'
-import { tpFetch } from '../../../page'
 import { ITemplate } from 'types/api'
+import { tpFetch } from '@util/core'
 
 const vids = ['./bar-tone-ha.mp4', '/lawkadan.mp4']
 

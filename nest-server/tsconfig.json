@@ -10,7 +10,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": { "@db/*": ["src/db/*"] },
+    "paths": { "@db/*": ["src/db/*"], "@services/*": ["src/services/*"] },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

@@ -14,10 +14,10 @@ const sequelizeModule = SequelizeModule.forRootAsync({
       define: { paranoid: true, timestamps: true },
       autoLoadModels: true,
       logging: false,
-      synchronize: true,
+      // synchronize: true,
+      // sync: { force: true },
     };
   },
-  // sync: { force: true },
   inject: [ConfigService],
 });
 

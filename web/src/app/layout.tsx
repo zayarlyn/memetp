@@ -18,7 +18,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en'>
+		<html lang='en' data-theme='light'>
 			<AntdRegistry>
 				<body className={inter.className + ' flex flex-col h-screen '}>
 					<Header />

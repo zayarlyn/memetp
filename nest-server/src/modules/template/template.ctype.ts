@@ -10,3 +10,8 @@ export interface ITemplate {
 
   url: string;
 }
+
+export interface ITemplateCreate {
+  title: string;
+  s3ObjectKeys: string[];
+}

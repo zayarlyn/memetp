@@ -4,7 +4,7 @@ import React from 'react'
 
 const Header = () => {
 	return (
-		<header className='flex items-center justify-between p-2 px-3'>
+		<header className='flex items-center justify-between p-2 px-3 border-b-[1px]'>
 			<Link href='/'>
 				<span className='font-mono tracking-wide'>MEMETP</span>
 			</Link>
