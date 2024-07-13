@@ -3,10 +3,10 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"nest-server": "cd nest-server && pnpm run start:dev",
-		"next-web": "cd web && npm run dev",
+		"nest-server": "cd server && pnpm run start:dev",
+		"next-web": "cd apps/web && npm run dev",
 		"dev": "concurrently npm:nest-server npm:next-web",
-		"gen-types": "node gentype.js"
+		"type-sync": "node gentype.js"
 	},
 	"author": "",
 	"license": "ISC",

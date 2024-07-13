@@ -1,32 +1,26 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseInterceptors } from '@nestjs/common'
-import { Request, Response } from 'express'
+import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import _ from 'lodash'
 
 import { TemplateService } from './template.service'
-import { ITemplateCreate } from './template.ctype'
+import type { ITemplateCreate } from './template.ctype'
 
 @Controller('/template')
 export class TemplateController {
   constructor(private templateService: TemplateService) {}
 
   @Get('/')
-  async listTemplates(@Req() req: Request, @Body() body: any): Promise<any> {
-    const {} = body
-    const templates = await this.templateService.getTemplates({})
-    return templates
-  }
-
-  @Get('/:tpId')
-  async getTemplate(@Req() req: Request, @Param() param: any): Promise<any> {
-    const { tpId } = param
-    const templates = await this.templateService.getTemplates({ id: tpId })
-    return templates[0]
+  async getTemplates(@Body() body: any): Promise<any> {
+    return await this.templateService.getTemplates({})
   }
 
   @Post('/')
-  async createTemplate(@Body() body: ITemplateCreate): Promise<any> {
-    const response = await this.templateService.createTemplate(body)
+  async createTemplate(@Body() body: ITemplateCreate) {
+    return await this.templateService.createTemplate(body)
+  }
 
-    return response
+  @Get('/:tpId')
+  async getTemplate(@Param() { tpId }: { tpId: string }): Promise<any> {
+    const templates = await this.templateService.getTemplates({ id: tpId })
+    return templates[0]
   }
 }

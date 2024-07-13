@@ -1,10 +1,11 @@
+
 interface IDefault {
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date
 }
 
-export interface IS3Object extends IDefault {
+interface IS3Object extends IDefault {
   id: string
   filename: string
   mimetype: string

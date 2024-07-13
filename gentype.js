@@ -15,7 +15,7 @@ function recursiveSync(dir) {
 		}
 	})
 }
-recursiveSync(__dirname + '/nest-server/src/modules')
+recursiveSync(__dirname + '/server/src/modules')
 
-fs.writeFileSync(__dirname + '/web/src/types/api/apiTypes.ts', typesString)
+fs.writeFileSync(__dirname + '/apps/web/src/types/api/apiTypes.ts', typesString)
 console.log('<<<< --- type Sync completed --- >>>>')

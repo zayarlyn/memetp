@@ -23,7 +23,7 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        printWidth: 140, // Specify the line length that Prettier will wrap code at
+        printWidth: 160, // Specify the line length that Prettier will wrap code at
         // Add any other Prettier options here
 
         semi: [2, 'never'],

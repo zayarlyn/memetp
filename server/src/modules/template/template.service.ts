@@ -1,9 +1,10 @@
 import { S3ObjectModel, TemplateModel } from '@db/models'
-import { Body, Injectable, Req } from '@nestjs/common'
-import _ from 'lodash'
-import { ITemplate, ITemplateCreate } from './template.ctype'
-import { S3Service } from '@services/core'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
+import _ from 'lodash'
+
+import { S3Service } from '@services/core'
+import { ITemplate, ITemplateCreate } from './template.ctype'
 
 @Injectable()
 export class TemplateService {
@@ -14,22 +15,31 @@ export class TemplateService {
   ) {}
 
   async getTemplates({ id }: { id?: string }): Promise<ITemplate[]> {
-    const where = id ? { id } : undefined
-    const dbTemplates = await this.templateModel.findAll({ where })
-    const templates = _.map(dbTemplates, tp => tp.toJSON())
-    const s3Urls = await Promise.all(_.map(templates, tp => this.s3Service.getS3ObjectUrl({ key: tp.s3Object, promise: true })))
-    const result = _.map(templates, (tp, idx) => ({ ...tp, url: s3Urls[idx] }))
-    return result
+    const dbTemplates = await this.templateModel.tpFindAll({ where: {}, include: [S3ObjectModel] })
+
+    const urlMatrix = await Promise.all(
+      _.map(dbTemplates, tp => Promise.all(_.map(tp.s3Objects, s3Object => this.s3Service.getS3ObjectUrl({ key: s3Object.id })))),
+    )
+
+    const templates = _.reduce(
+      dbTemplates,
+      (tpArray, tp, i) => {
+        const s3Objects = _.map(tp.s3Objects, (s3Object, j) => ({ ...s3Object, url: urlMatrix[i][j] }))
+        return [...tpArray, { ...tp, s3Objects }]
+      },
+      [],
+    )
+
+    return templates
   }
 
   async createTemplate(data: ITemplateCreate): Promise<{ id: number }> {
     const { s3ObjectKeys, ...templateFields } = data
     const tp = await this.templateModel.create(templateFields)
+
     // n + 1 query 🫠
     await Promise.all(
-      _.map(s3ObjectKeys, key =>
-        this.s3ObjectModel.update({ modelName: TemplateModel.getTableName(), modelId: tp.id }, { where: { id: key } }),
-      ),
+      _.map(s3ObjectKeys, key => this.s3ObjectModel.update({ modelName: TemplateModel.getTableName(), modelId: tp.id }, { where: { id: key } })),
     )
     return { id: tp.id }
   }
