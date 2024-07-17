@@ -13,7 +13,7 @@ export const TpCard = ({ tp, autoplay, details = false }: { tp: ITemplate; autop
 			<div className='w-full'>
 				<div className='h-40 grid place-items-center'>
 					{s3Object?.mimetype.startsWith('video') ? (
-						<video src={s3Object?.url} playsInline autoPlay={autoplay} className='h-40' />
+						<video src={s3Object?.url} autoPlay={autoplay} className='h-40' />
 					) : (
 						<img src={s3Object?.url} alt={tp.title} className='h-40' />
 					)}

@@ -1,6 +1,6 @@
-import { Button } from 'antd';
-import Link from 'next/link';
-import React from 'react';
+import { Button } from 'antd'
+import Link from 'next/link'
+import React from 'react'
 
 export const Header = () => {
 	return (
@@ -8,12 +8,14 @@ export const Header = () => {
 			<a href='/'>
 				<span className='font-mono tracking-wide'>MEMETP</span>
 			</a>
-
-			<Link href='/upload'>
+			{/* <Link href='/upload'>
+				<button className='btn ml-auto'>Upload</button>
+			</Link> */}
+			{/* <Link href='/upload'>
 				<Button className='ml-auto' size='large'>
 					Upload
 				</Button>
-			</Link>
+			</Link> */}
 		</header>
 	)
 }

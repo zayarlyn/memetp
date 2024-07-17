@@ -22,7 +22,8 @@
 			// "@memetp/*": ["./src/*"]
 			"@components/*": ["./src/components/*"],
 			"types/*": ["./src/types/*"],
-			"@util/*": ["./src/util/*"]
+			"@util/*": ["./src/util/*"],
+			"@tp/*": ["./src/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

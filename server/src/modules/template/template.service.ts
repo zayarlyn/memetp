@@ -36,6 +36,7 @@ export class TemplateService {
   async createTemplate(data: ITemplateCreate): Promise<{ id: number }> {
     const { s3ObjectKeys, ...templateFields } = data
     const tp = await this.templateModel.create(templateFields)
+    console.log(data)
 
     // n + 1 query 🫠
     await Promise.all(

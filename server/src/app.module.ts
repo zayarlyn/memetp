@@ -7,7 +7,7 @@ import { FileModule } from './modules/file/file.module'
 import { TemplateModule } from './modules/template/template.module'
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }), DbModule, TemplateModule, FileModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' }), DbModule, TemplateModule, FileModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

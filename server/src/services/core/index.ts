@@ -1,1 +1,1 @@
-export * from './s3.service'
+export * from './S3Service'

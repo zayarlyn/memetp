@@ -22,12 +22,6 @@ export class FileController {
 
   @Get('/download/:s3ObjectKey')
   async downloadFile(@Param('s3ObjectKey') s3ObjectKey: string, @Res() reply: Response) {
-    const s3Object = await this.fileService.getS3Object({ id: s3ObjectKey })
-    const streamResponse = await lastValueFrom(this.httpService.get(s3Object.url, { responseType: 'stream' }))
-    reply.set({
-      'Content-Disposition': `attachment; filename="${s3Object.filename}"`,
-      'Content-Type': s3Object.mimetype, // Change to appropriate MIME type
-    })
-    streamResponse.data.pipe(reply)
+    return this.fileService.downloadFile({ s3ObjectKey, reply })
   }
 }

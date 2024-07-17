@@ -3,9 +3,6 @@ import { BaseModel } from './BaseModel'
 
 @Table({ tableName: 's3_object' })
 export class S3ObjectModel extends BaseModel {
-  @Column({ type: DataType.STRING, primaryKey: true, allowNull: false })
-  id!: string
-
   @Column({ type: DataType.STRING, allowNull: false })
   filename!: string
 

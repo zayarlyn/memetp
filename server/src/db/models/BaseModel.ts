@@ -1,9 +1,12 @@
 import { HttpException } from '@nestjs/common'
-import { Model } from 'sequelize-typescript'
+import { Column, DataType, Model } from 'sequelize-typescript'
 
 import type { FindOptions } from 'sequelize'
 
 export class BaseModel extends Model {
+  @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
+  id!: number
+
   static async tpFindOrFail(options: FindOptions) {
     const record = await this.findOne(options)
     if (!record) throw new HttpException('No record found', 404)

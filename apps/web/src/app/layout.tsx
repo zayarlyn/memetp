@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import './globals.css';
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import './globals.css'
 
-import { Inter } from 'next/font/google';
+import { Inter } from 'next/font/google'
 
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { Header } from '@components/app';
+import { AntdRegistry } from '@ant-design/nextjs-registry'
+import { Header } from '@components/app'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,10 @@ export default function RootLayout({
 			<AntdRegistry>
 				<body className={inter.className + ' flex flex-col h-screen '}>
 					<Header />
-					<main className='overflow-auto'>{children}</main>
+					<main className='overflow-auto'>
+						{children}
+						<SpeedInsights />
+					</main>
 				</body>
 			</AntdRegistry>
 		</html>

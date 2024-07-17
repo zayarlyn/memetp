@@ -3,7 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-// NOTE: should return await Promise here since other parts may use Promise.all
+// NOTE: should not return await Promise here since other parts may use Promise.all
 
 @Injectable()
 export class S3Service {

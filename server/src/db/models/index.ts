@@ -1,2 +1,3 @@
-export * from './template.model'
-export * from './s3_object.model'
+export * from './TemplateModel'
+export * from './S3ObjectModel'
+export * from './UserRequestModel'

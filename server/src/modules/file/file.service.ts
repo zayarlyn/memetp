@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { ulid } from 'ulid'
 import _ from 'lodash'
+import { Response } from 'express'
 
 import { S3ObjectModel } from '@db/models'
 import { InjectModel } from '@nestjs/sequelize'
 import { S3Service } from '@services/core'
 import { IS3Object } from '../template/template.ctype'
+import { lastValueFrom } from 'rxjs'
+import { HttpService } from '@nestjs/axios'
 
 @Injectable()
 export class FileService {
   constructor(
     private s3Service: S3Service,
+    private httpService: HttpService,
     @InjectModel(S3ObjectModel) private s3ObjectModel: typeof S3ObjectModel,
   ) {}
 
@@ -24,7 +28,17 @@ export class FileService {
     return { filenames: _.map(filesWithKey, 'filename') }
   }
 
-  async getS3Object({ id }: { id: string }): Promise<IS3Object> {
+  async downloadFile({ s3ObjectKey, reply }: { s3ObjectKey: string; reply: Response }) {
+    const s3Object = await this.getS3Object({ id: s3ObjectKey })
+    const streamResponse = await lastValueFrom(this.httpService.get(s3Object.url, { responseType: 'stream' }))
+    reply.set({
+      'Content-Disposition': `attachment; filename="${s3Object.filename}"`,
+      'Content-Type': s3Object.mimetype,
+    })
+    streamResponse.data.pipe(reply)
+  }
+
+  private async getS3Object({ id }: { id: string }): Promise<IS3Object> {
     const s3Object = await this.s3ObjectModel.tpFindOrFail({ where: { id } })
     const s3Url = await this.s3Service.getS3ObjectUrl({ key: id })
 
