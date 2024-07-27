@@ -5,13 +5,13 @@ import _ from 'lodash'
 import type { Response } from 'express'
 
 import { FileService } from './file.service'
-import { HttpService } from '@nestjs/axios'
+import { TemplateService } from '../template/template.service'
 
 @Controller('/file')
 export class FileController {
   constructor(
     private fileService: FileService,
-    private httpService: HttpService,
+    private templateService: TemplateService,
   ) {}
 
   @Post('/upload')
@@ -22,6 +22,13 @@ export class FileController {
 
   @Get('/download/:s3ObjectKey')
   async downloadFile(@Param('s3ObjectKey') s3ObjectKey: string, @Res() reply: Response) {
-    return this.fileService.downloadFile({ s3ObjectKey, reply })
+    const { stream, s3Object } = await this.fileService.downloadFile({ s3ObjectKey })
+    this.templateService.updateTemplate({ id: s3Object.modelId, values: { downloads: true } })
+
+    reply.set({
+      'Content-Disposition': `attachment; filename="${s3Object.filename}"`,
+      'Content-Type': s3Object.mimetype,
+    })
+    stream.data.pipe(reply)
   }
 }

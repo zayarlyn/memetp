@@ -5,6 +5,9 @@ import { TemplateModel } from './TemplateModel'
 
 @Table({ tableName: 'user_request' })
 export class UserRequestModel extends BaseModel {
+  @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
+  id!: number
+
   @Column({ type: DataType.ENUM('template.submit'), allowNull: false })
   type: string
 

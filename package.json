@@ -6,6 +6,7 @@
 		"nest-server": "cd server && pnpm run start:dev",
 		"next-web": "cd apps/web && npm run dev",
 		"dev": "concurrently npm:nest-server npm:next-web",
+		"dep-install": "cd apps/web && npm i && cd ../../server && pnpm i",
 		"type-sync": "node gentype.js"
 	},
 	"author": "",

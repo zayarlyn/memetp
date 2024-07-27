@@ -1,7 +1,12 @@
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { S3ObjectModel } from '@db/models'
+import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { InjectModel } from '@nestjs/sequelize'
+import { AxiosResponse } from 'axios'
+import { lastValueFrom } from 'rxjs'
 
 // NOTE: should not return await Promise here since other parts may use Promise.all
 
@@ -10,7 +15,11 @@ export class S3Service {
   private s3: S3Client
   private bucket: string
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private httpService: HttpService,
+    @InjectModel(S3ObjectModel) private s3ObjectModel: typeof S3ObjectModel,
+  ) {
     this.s3 = new S3Client({
       region: this.configService.get('AWS_S3_REGION'),
       credentials: { accessKeyId: this.configService.get('AWS_ACCESS_KEY'), secretAccessKey: this.configService.get('AWS_SECRET_KEY') },
@@ -34,6 +43,12 @@ export class S3Service {
       },
     })
     return this.s3.send(putObjectCmd)
+  }
+
+  async getS3ObjectStream({ key }: { key: string }): Promise<AxiosResponse> {
+    const url = await this.getS3ObjectUrl({ key })
+    const streamResponse = await lastValueFrom(this.httpService.get(url, { responseType: 'stream' }))
+    return streamResponse
   }
 }
 

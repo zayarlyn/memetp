@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common'
 import _ from 'lodash'
 
 import { TemplateService } from './template.service'
@@ -22,5 +22,10 @@ export class TemplateController {
   async getTemplate(@Param() { tpId }: { tpId: string }): Promise<any> {
     const templates = await this.templateService.getTemplates({ id: tpId })
     return templates[0]
+  }
+
+  @Put('/:tpId')
+  async updateTemplate(@Param() { tpId, values }: { tpId: number; values: any }): Promise<any> {
+    return await this.updateTemplate({ tpId, values })
   }
 }

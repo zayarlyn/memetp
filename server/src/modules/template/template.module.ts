@@ -5,9 +5,10 @@ import { S3Service } from '@services/core'
 
 import { TemplateController } from './template.controller'
 import { TemplateService } from './template.service'
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
-  imports: [SequelizeModule.forFeature([TemplateModel, S3ObjectModel, UserRequestModel])],
+  imports: [HttpModule, SequelizeModule.forFeature([TemplateModel, S3ObjectModel])],
   controllers: [TemplateController],
   providers: [TemplateService, S3Service],
 })

@@ -6,14 +6,17 @@ import { UserRequestModel } from './UserRequestModel'
 
 @Table({ tableName: 'template' })
 export class TemplateModel extends BaseModel {
+  @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
+  id!: number
+
   @Column({ type: DataType.STRING, allowNull: false })
   title!: string
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
-  likes?: Date
+  likes?: number
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
-  downloads?: Date
+  downloads?: number
 
   // relations
   @HasMany(() => UserRequestModel)

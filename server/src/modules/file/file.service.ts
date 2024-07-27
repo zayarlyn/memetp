@@ -28,20 +28,17 @@ export class FileService {
     return { filenames: _.map(filesWithKey, 'filename') }
   }
 
-  async downloadFile({ s3ObjectKey, reply }: { s3ObjectKey: string; reply: Response }) {
+  async downloadFile({ s3ObjectKey }: { s3ObjectKey: string }) {
     const s3Object = await this.getS3Object({ id: s3ObjectKey })
-    const streamResponse = await lastValueFrom(this.httpService.get(s3Object.url, { responseType: 'stream' }))
-    reply.set({
-      'Content-Disposition': `attachment; filename="${s3Object.filename}"`,
-      'Content-Type': s3Object.mimetype,
-    })
-    streamResponse.data.pipe(reply)
+    const stream = await lastValueFrom(this.httpService.get(s3Object.url, { responseType: 'stream' }))
+
+    return { stream, s3Object }
   }
 
   private async getS3Object({ id }: { id: string }): Promise<IS3Object> {
-    const s3Object = await this.s3ObjectModel.tpFindOrFail({ where: { id } })
+    const s3Object = await this.s3ObjectModel.tpFindOrFail<S3ObjectModel>({ where: { id } })
     const s3Url = await this.s3Service.getS3ObjectUrl({ key: id })
 
-    return { ...s3Object, url: s3Url }
+    return { ...s3Object.toJSON(), url: s3Url }
   }
 }

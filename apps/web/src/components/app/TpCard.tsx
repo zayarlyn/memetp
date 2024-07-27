@@ -1,19 +1,35 @@
-import { Button } from 'antd'
+'use client'
+
 import _ from 'lodash'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ITemplate } from 'types/api'
 
 import { IconDownload, IconHeart } from '@tabler/icons-react'
 
-export const TpCard = ({ tp, autoplay, details = false }: { tp: ITemplate; autoplay?: boolean; details?: boolean }) => {
+export const TpCard = ({ tp, playable = false, details = false }: { tp: ITemplate; playable?: boolean; details?: boolean }) => {
 	const s3Object = _.head(tp.s3Objects)
+	const vidRef = useRef<HTMLVideoElement>(null)
+
+	useEffect(() => {
+		if (vidRef.current) vidRef.current.load()
+	}, [])
 
 	return (
-		<div className='p-2 border-[1.5px] rounded-md h-auto hover:border-blue-400 active:border-blue-500'>
+		<div
+			onClick={() => {
+				// vidRef.current?.load()
+				if (!playable) return
+				vidRef.current?.play()
+			}}
+			className='p-2 border-[1.5px] rounded-md h-auto hover:border-blue-400 active:border-blue-500'
+		>
 			<div className='w-full'>
 				<div className='h-40 grid place-items-center'>
 					{s3Object?.mimetype.startsWith('video') ? (
-						<video src={s3Object?.url} autoPlay={autoplay} className='h-40' />
+						<video playsInline className='h-40' ref={vidRef}>
+							{/* <source src='https://media.w3.org/2010/05/sintel/trailer.mp4' /> */}
+							<source src={s3Object.url} />
+						</video>
 					) : (
 						<img src={s3Object?.url} alt={tp.title} className='h-40' />
 					)}
@@ -34,9 +50,9 @@ export const TpCard = ({ tp, autoplay, details = false }: { tp: ITemplate; autop
 					</div>
 					{/* <button className='btn btn-primary btn-sm'>Normal</button> */}
 					{!details && (
-						<Button type='primary' size='middle'>
-							Download
-						</Button>
+						<a href={`tp/${tp.id}`}>
+							<button className='btn-primary'>Download</button>
+						</a>
 					)}
 				</div>
 			</div>

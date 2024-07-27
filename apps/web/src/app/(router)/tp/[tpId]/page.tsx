@@ -1,9 +1,6 @@
-import { Button } from 'antd'
-
 import { TpCard } from '@components/app'
 import { tpFetch } from '@util/core'
 import { ITemplate } from 'types/api'
-import { IconPencil } from '@tabler/icons-react'
 
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 export default async function Home({ params }: any) {
@@ -17,18 +14,14 @@ export default async function Home({ params }: any) {
 					<IconPencil stroke={1.5} size={20} />
 				</a> */}
 			</div>
-			<TpCard tp={tp} details />
+			<TpCard tp={tp} details playable />
 
 			<div className='mt-5'>
 				<a href={serverUrl + '/api/file/download/' + tp.s3Objects[0].id} download>
-					<Button type='primary' block>
-						Download
-					</Button>
+					<button className='btn-primary w-full'>Download</button>
 				</a>
 				<a>
-					<Button type='text' block>
-						Share
-					</Button>
+					<button className='btn-outlined w-full mt-2'>Share</button>
 				</a>
 			</div>
 		</div>

@@ -15,7 +15,7 @@ export class TemplateService {
   ) {}
 
   async getTemplates({ id }: { id?: string }): Promise<ITemplate[]> {
-    const dbTemplates = await this.templateModel.tpFindAll({ where: {}, include: [S3ObjectModel] })
+    const dbTemplates = await this.templateModel.tpFindAll({ where: id ? { id } : {}, include: [S3ObjectModel] })
 
     const urlMatrix = await Promise.all(
       _.map(dbTemplates, tp => Promise.all(_.map(tp.s3Objects, s3Object => this.s3Service.getS3ObjectUrl({ key: s3Object.id })))),
@@ -43,6 +43,16 @@ export class TemplateService {
       _.map(s3ObjectKeys, key => this.s3ObjectModel.update({ modelName: TemplateModel.getTableName(), modelId: tp.id }, { where: { id: key } })),
     )
     return { id: tp.id }
+  }
+
+  async updateTemplate({ id, values }: { id?: string; values: any }): Promise<ITemplate> {
+    const dbTemplate = await this.templateModel.tpFindOrFail<TemplateModel>({ where: { id } })
+    dbTemplate.set(_.omit(values, ['downloads', 'likes']))
+    if (values.downloads === true) dbTemplate.downloads += 1
+    if (values.likes === true) dbTemplate.likes += 1
+    await dbTemplate.save()
+
+    return dbTemplate.toJSON()
   }
 }
 

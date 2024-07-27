@@ -1,8 +1,12 @@
 import { Column, DataType, Table } from 'sequelize-typescript'
 import { BaseModel } from './BaseModel'
+import { ulid } from 'ulid'
 
 @Table({ tableName: 's3_object' })
 export class S3ObjectModel extends BaseModel {
+  @Column({ type: DataType.STRING, primaryKey: true, defaultValue: ulid() })
+  id: string
+
   @Column({ type: DataType.STRING, allowNull: false })
   filename!: string
 
