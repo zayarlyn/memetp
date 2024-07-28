@@ -15,18 +15,20 @@ export const TpCard = ({ tp, playable = false, details = false }: { tp: ITemplat
 	}, [])
 
 	return (
-		<div
-			onClick={() => {
-				// vidRef.current?.load()
-				if (!playable) return
-				vidRef.current?.play()
-			}}
-			className='p-2 border-[1.5px] rounded-md h-auto hover:border-blue-400 active:border-blue-500'
-		>
+		<div className='p-2 border-[1.5px] rounded-md h-auto'>
 			<div className='w-full'>
 				<div className='h-40 grid place-items-center'>
 					{s3Object?.mimetype.startsWith('video') ? (
-						<video playsInline className='h-40' ref={vidRef}>
+						<video
+							playsInline
+							className='h-40'
+							ref={vidRef}
+							onClick={() => {
+								// vidRef.current?.load()
+								if (!playable) return
+								vidRef.current?.play()
+							}}
+						>
 							{/* <source src='https://media.w3.org/2010/05/sintel/trailer.mp4' /> */}
 							<source src={s3Object.url} />
 						</video>

@@ -1,6 +1,25 @@
 import { TpCard } from '@components/app'
 import { tpFetch } from '@util/core'
-import { ITemplate } from 'types/api'
+import type { ITemplate } from 'types/api'
+import type { Metadata } from 'next'
+import _ from 'lodash'
+
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+	const tp: ITemplate = await tpFetch('/api/template/' + params.tpId)
+
+	// optionally access and extend (rather than replace) parent metadata
+	// const previousImages = (await parent).openGraph?.images || []
+
+	return {
+		title: `memetp | ${tp.title}`,
+		openGraph: {
+			images: _.map(tp.s3Objects, 'url'),
+		},
+		// openGraph: {
+		//   images: ['/some-specific-page-image.jpg', ...previousImages],
+		// },
+	}
+}
 
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
 export default async function Home({ params }: any) {

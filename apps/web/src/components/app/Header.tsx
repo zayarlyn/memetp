@@ -1,6 +1,7 @@
 import { Button } from 'antd'
 import Link from 'next/link'
 import React from 'react'
+import LoadingBar from 'react-top-loading-bar'
 
 export const Header = () => {
 	return (

@@ -14,6 +14,13 @@ export class FileController {
     private templateService: TemplateService,
   ) {}
 
+  @Get('/:s3ObjectKey')
+  async getFile(@Param('s3ObjectKey') s3ObjectKey: string, @Res() reply: Response) {
+    const stream = await this.fileService.getFile({ s3ObjectKey })
+
+    return stream
+  }
+
   @Post('/upload')
   @UseInterceptors(FilesInterceptor('files'))
   async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {

@@ -5,9 +5,19 @@ import { DbModule } from './db/db.module'
 import { AuthorizationMiddleware } from './middlewares/authorization.middleware'
 import { FileModule } from './modules/file/file.module'
 import { TemplateModule } from './modules/template/template.module'
+import { ServeStaticModule } from '@nestjs/serve-static'
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' }), DbModule, TemplateModule, FileModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    ServeStaticModule.forRoot({
+      rootPath: __dirname + '/public',
+      renderPath: '/public',
+    }),
+    DbModule,
+    TemplateModule,
+    FileModule,
+  ],
   // controllers: [AppController],
   // providers: [AppService],
 })

@@ -23,6 +23,7 @@ export default function RootLayout({
 		<html lang='en' data-theme='light'>
 			<AntdRegistry>
 				<body className={inter.className + ' flex flex-col h-screen '}>
+					{/* <TopLoader /> */}
 					<Header />
 					<main className='overflow-auto'>
 						{children}

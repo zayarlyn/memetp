@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/sequelize'
 import { AxiosResponse } from 'axios'
+import { type FfprobeStream } from 'fluent-ffmpeg'
 import { lastValueFrom } from 'rxjs'
 
 // NOTE: should not return await Promise here since other parts may use Promise.all
@@ -32,7 +33,7 @@ export class S3Service {
     return getSignedUrl(this.s3, getObjectCmd, { expiresIn: 3600 * 4 })
   }
 
-  async uploadS3Object({ file }: { file: Express.Multer.File }) {
+  async uploadS3Object({ file }: { file: Express.Multer.File; metadata: FfprobeStream }) {
     const putObjectCmd = new PutObjectCommand({
       Bucket: this.bucket,
       Key: file.filename,

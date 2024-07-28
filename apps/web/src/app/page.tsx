@@ -3,6 +3,12 @@ import { ITemplate } from 'types/api'
 
 import { TpCard } from '@components/app'
 import { tpFetch } from '@util/core'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'memetp | browse templates',
+	description: '...',
+}
 
 export default async function Home() {
 	const templates: ITemplate[] = await tpFetch('/api/template')

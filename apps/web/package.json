@@ -12,6 +12,7 @@
 		"@ant-design/nextjs-registry": "^1.0.0",
 		"@aws-sdk/client-s3": "^3.609.0",
 		"@aws-sdk/s3-request-presigner": "^3.609.0",
+		"@badrap/bar-of-progress": "^0.2.2",
 		"@tabler/icons-react": "^3.9.0",
 		"@vercel/speed-insights": "^1.0.12",
 		"antd": "^5.19.0",

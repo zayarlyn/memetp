@@ -21,6 +21,7 @@ const Page = () => {
 	const [uploadTp, tpUploading, tpUploadError] = useTpFetch('/api/template', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
 
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+		accept: { 'video/mp4': ['.mp4'] },
 		onDrop: async (acceptedFiles) => {
 			setFiles((prev) => [
 				...prev,
